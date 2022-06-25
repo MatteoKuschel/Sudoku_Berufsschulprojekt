@@ -48,3 +48,5 @@ void print_sudoku();
 void initialize_structs();
 
 get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
+//Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
+save_score_data(int *sudoku[9][9], char filename[50]);
