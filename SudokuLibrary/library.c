@@ -226,13 +226,19 @@ void set_difficulty_of_game() {
     switch (difficulty)
     {
     case '1' : 
-        printf(" *** Spiel auf leicht setzten ***");
+        // Stellt das Spiel auf leicht ein.
+        set_difficulty(1);
+        remove_sudoku_grid_numbers(); 
         break;
     case '2' : 
-        printf(" *** Spiel auf mittel setzten ***");
+        // Stellt das Spiel auf mittel ein.
+        set_difficulty(2);
+        remove_sudoku_grid_numbers();
         break;
     case '3' : 
-        printf(" *** Spiel auf schwer setzten ***");
+        // Stellt das Spiel auf schwer ein.
+        set_difficulty(3);
+        remove_sudoku_grid_numbers();
         break;
     
     default:
