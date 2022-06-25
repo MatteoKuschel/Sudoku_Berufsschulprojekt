@@ -105,9 +105,9 @@ void print_sudoku()
     printf("GRID\n");
     for (int i = 0; i < 9; i++) {
         for (int m = 0; m < 9; m++) {
-            printf("%i ",sudoku_grid[i][m]);
+            printf("%i ",sudoku_grid_copy[i][m]);
         }
-        printf("\n");   
+        printf("\n");
     }
 }
 
@@ -128,4 +128,46 @@ void initialize_structs()
             sudoku_rows[i]->numbers[j] = 0;
         }
     }
+}
+
+void set_difficulty(int chosen_difficulty)
+{
+    switch (chosen_difficulty) {
+        case 1:
+            digits_to_remove = 24;
+            break;
+        case 2:
+            digits_to_remove = 35;
+            break;
+        case 3:
+            digits_to_remove = 50;
+            break;
+        default:
+            digits_to_remove = 24;
+    }
+}
+
+void copy_sudoku_grid()
+{
+    for (int i = 0; i < 9 ; i++) {
+        for (int j = 0; j < 9 ; j++) {
+            sudoku_grid_copy[i][j] = sudoku_grid[i][j];
+        }
+    }
+}
+
+void remove_sudoku_grid_numbers()
+{
+    int remaining_digits = digits_to_remove;
+    srand(time(NULL));
+    do {
+        int cell = rand() % 81;
+        int row = ((int) cell / 9);
+        int col = cell % 9;
+        if (sudoku_grid_copy[row][col] != 0) {
+            delete_number(sudoku_grid_copy[row][col], row, col);
+            sudoku_grid_copy[row][col] = 0;
+            remaining_digits--;
+        }
+    } while (remaining_digits > 0);
 }
