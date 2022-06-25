@@ -343,11 +343,15 @@ void play_game()
             printf("Reihe: \n");
             scanf(" %c",&row_c);
 
-            if ((row_c  >= '0') && (row_c <= '9') || (row_c == 'x') || (row_c == 'X')) {
+            if ((row_c  >= '1') && (row_c <= '9')) {
                 break;
-            } else {
+            } 
+            if ((row_c == 'x') || (row_c == 'X')) {
+                printf("Spiel beendet!");
+                printf("\n");
+                return;
+            }
             printf("\nUngueltige eingabe!\n");
-        }
         }
 
         // Spielereingabe für die Spalte.
@@ -356,12 +360,28 @@ void play_game()
             printf("Spalte: \n");
             scanf(" %c",&col_c);
 
-            if ((col_c  >= '0') && (col_c <= '9') || (col_c == 'x') || (col_c == 'X')) {
+            if ((col_c  >= '1') && (col_c <= '9')) {
                 break;
-            } else {
+            }
+            //Bricht das Spiel ab, falls der Spieler in einen der Eingaben ein kleines oder großes X eingibt.
+            if ((col_c == 'x') || (col_c == 'X')) {
+                printf("Spiel beendet!");
+                printf("\n");
+                return;
+            }
             printf("\nUngueltige eingabe!\n");
         }
-        }
+
+        // Spielereinagbe um 1 subtrahiert für besseres/intuitives Spielerlebnis.
+        row = (int)row_c - 49;
+        col = (int)col_c - 49;
+
+        // Verhindert, dass ein Feld geändert wird, welches bereits ein Wert hat 
+        // if (sudoku_grid_copy[row][col] != 0) {
+        //     printf("Feld ist nicht leer.");
+        //     // Funktion: if 
+        //     continue;
+        // }
 
         // Spielereingabe für den Eingabewert.
         while (1)
@@ -369,33 +389,23 @@ void play_game()
             printf("Wert: \n");
             scanf(" %c",&value_c);
 
-            if ((value_c  >= '0') && (value_c <= '9') || (value_c == 'x') || (value_c == 'X')) {
+            if ((value_c  >= '1') && (value_c <= '9')) {
                 break;
-            } else {
+            } 
+            //Bricht das Spiel ab, falls der Spieler in einen der Eingaben ein kleines oder großes X eingibt.
+            if ((value_c == 'x') || (value_c == 'X')){
+                printf("Spiel beendet!");
+                printf("\n");
+                return;
+            }
             printf("\nUngueltige eingabe!\n");
-        }
-        }
-
-        //Bricht das Spiel ab, falls der Spieler in einen der Eingaben ein kleines oder großes X eingibt.
-        if (
-            !((row_c  >= '0') && (row_c <= '9')) || 
-            !((col_c  >= '0') && (col_c <= '9')) || 
-            !((value_c  >= '0') && (value_c <= '9'))
-            )
-        {
-            printf("\n");
-            printf("Spiel beendet!");
-            printf("\n");
-            break;
+        
         }
 
-        row = (int)row_c - 48;
-        col = (int)col_c - 48;
+        
         value = (int)value_c - 48;
 
-        // Spielereinagbe um 1 subtrahiert für besseres/intuitives Spielerlebnis.
-        row = row - 1;
-        col = col - 1;
+        
         
         set_sudoku_grid_field(row,col,value);
 
