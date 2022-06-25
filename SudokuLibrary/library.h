@@ -46,7 +46,7 @@ Sudoku_column_node *sudoku_column_nodes[9];
 
 static int digits_to_remove = 0;
 
-stat
+
 static int sudoku_grid[9][9] = {0};
 static int sudoku_grid_copy[9][9] = {0};
 
@@ -75,9 +75,9 @@ void print_sudoku();
 /** Initialisiert die Strukturen*/
 void initialize_structs();
 
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
+void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
-save_score_data(int *sudoku[9][9], char filename[50]);
+void save_score_data(int *sudoku[9][9], char filename[50]);
 
 /** Legt fest wie viele Zahlen aus dem Grid gelöscht werden. Es gibt drei verschiedene Schwierigkeitsgrade von 1 bis 3.*/
 void set_difficulty(int chosen_difficulty);
@@ -98,9 +98,9 @@ void set_difficulty_of_game();
 void print_current_sudoku_grid();
 
 // Ändert den Wert eines Sudoku Feldes anhand der Spielereingabe.
-int set_sudoku_grid_field(int row, int col, int value);
+void set_sudoku_grid_field(int row, int col, int value);
 
 // Gibt das aktuelle Spielfeld aus und bietet einem die Möglickeit die Werte der Felder zu verändern.
-int play_game();
+void play_game();
 
 

@@ -131,7 +131,7 @@ void initialize_structs()
 }
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
+void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;
@@ -157,8 +157,9 @@ get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
         }
         line++;
     }
+}
 
-save_score_data(int *sudoku[9][9], char filename[50])
+void save_score_data(int *sudoku[9][9], char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;
@@ -243,7 +244,7 @@ void print_quit_game_text() {
 
 // Gibt einem die Möglichkeit den Schwierigkeitsgrad des Spieles auszuwählen.
 void set_difficulty_of_game() {
-    char difficulty;
+    int difficulty;
 
     printf("\n\n");
     printf("Spielschwierigkeit einstellen: \n");
@@ -255,37 +256,21 @@ void set_difficulty_of_game() {
     while (1)
     {
         printf("Wahl: ");
-        scanf(" %c",&difficulty);
+        scanf(" %i",&difficulty);
 
-        if ((difficulty == '1') || (difficulty == '2') || (difficulty == '3')){
+
+        // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades. 
+        if ((difficulty == 1) || (difficulty == 2) || (difficulty == 3)){
+             set_difficulty(difficulty);
+            remove_sudoku_grid_numbers(); 
             break;
         } else {
             printf("\nUngueltige eingabe!\n");
         }
     }
 
-    // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades. 
-    switch (difficulty)
-    {
-    case '1' : 
-        // Stellt das Spiel auf leicht ein.
-        set_difficulty(1);
-        remove_sudoku_grid_numbers(); 
-        break;
-    case '2' : 
-        // Stellt das Spiel auf mittel ein.
-        set_difficulty(2);
-        remove_sudoku_grid_numbers();
-        break;
-    case '3' : 
-        // Stellt das Spiel auf schwer ein.
-        set_difficulty(3);
-        remove_sudoku_grid_numbers();
-        break;
     
-    default:
-        break;
-    }
+    
 }
 
 // Gibt das Sudoku Spiel im Terminal aus.
@@ -300,18 +285,18 @@ void print_current_sudoku_grid()
         for (int m = 0; m < 9; m++) {
             if ((m == 2) | (m == 5) | (m == 8)){
                 
-                if (sudoku_grid[l][m] == 0) {
+                if (sudoku_grid_copy[l][m] == 0) {
                     printf("   |");
                 } else {
-                     printf(" %i |",sudoku_grid[l][m]);
+                     printf(" %i |",sudoku_grid_copy[l][m]);
                 }
             
             } else {
 
-                if (sudoku_grid[l][m] == 0) {
+                if (sudoku_grid_copy[l][m] == 0) {
                     printf("   ");
                 } else {
-                    printf(" %i ",sudoku_grid[l][m]);   
+                    printf(" %i ",sudoku_grid_copy[l][m]);   
                 }
             }
 
@@ -324,13 +309,17 @@ void print_current_sudoku_grid()
 }
 
 // Ändert den Wert eines Sudoku Feldes anhand der Spielereingabe.
-int set_sudoku_grid_field(int row, int col, int value)
+void set_sudoku_grid_field(int row, int col, int value)
 {
-    sudoku_grid[row][col] = value;
+    sudoku_grid_copy[row][col] = value;
+    if (digits_to_remove == 0) {
+        return;
+    }
+    digits_to_remove --;
 }
 
 // Gibt das aktuelle Spielfeld aus und bietet einem die Möglickeit die Werte der Felder zu verändern.
-int play_game()
+void play_game()
 {
     int row;
     int col;
@@ -341,8 +330,9 @@ int play_game()
 
     print_quit_game_text();
     set_difficulty_of_game();
-    
-    while (1)
+    int is_valid = 0;
+
+    while (!is_valid)
     {
         print_current_sudoku_grid();
         printf("\n");
@@ -408,6 +398,13 @@ int play_game()
         col = col - 1;
         
         set_sudoku_grid_field(row,col,value);
+
+        if (digits_to_remove == 0){
+            printf("\n");
+            // Funktion einbauen um zu überprüfen, ob man gewonnnen hat oder nicht. 
+            // is_valid = funktionsaufruf
+            printf("\n");
+        }
     }
 }
 
