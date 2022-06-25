@@ -46,7 +46,7 @@ Sudoku_column_node *sudoku_column_nodes[9];
 
 static int digits_to_remove = 0;
 
-stat
+
 static int sudoku_grid[9][9] = {0};
 static int sudoku_grid_copy[9][9] = {0};
 
