@@ -50,3 +50,19 @@ void initialize_structs();
 get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
 save_score_data(int *sudoku[9][9], char filename[50]);
+
+//Gibt ein Text aus, der einen darauf hinweißt, dass man mit der Eingabe von x das Spiel beenden kann.
+void print_quit_game_text();
+
+// Gibt einem die Möglichkeit den Schwierigkeitsgrad des Spieles auszuwählen.
+void set_difficulty_of_game();
+
+// Gibt das Sudoku Spiel im Terminal aus.
+void print_current_sudoku_grid();
+
+// Ändert den Wert eines Sudoku Feldes anhand der Spielereingabe.
+int set_sudoku_grid_field(int row, int col, int value);
+
+// Gibt das aktuelle Spielfeld aus und bietet einem die Möglickeit die Werte der Felder zu verändern.
+int play_game();
+

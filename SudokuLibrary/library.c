@@ -189,3 +189,176 @@ save_score_data(int *sudoku[9][9], char filename[50])
     //Datei schließen
     fclose(sudoku_file);
 }
+
+//Gibt ein Text aus, der einen darauf hinweißt, dass man mit der Eingabe von x das Spiel beenden kann.
+void print_quit_game_text() {
+
+    printf("\n\n");
+    printf("//////////////////////\n");
+    printf("/   Spiel beenden: x /\n");
+    printf("//////////////////////\n");
+}
+
+// Gibt einem die Möglichkeit den Schwierigkeitsgrad des Spieles auszuwählen.
+void set_difficulty_of_game() {
+    char difficulty;
+
+    printf("\n\n");
+    printf("Spielschwierigkeit einstellen: \n");
+    printf("Leicht: 1\n");
+    printf("Mittel: 2\n");
+    printf("Schwer: 3\n\n");
+
+    // Spielereingabe für die Wahl des Schwierigkeitsgrades.
+    while (1)
+    {
+        printf("Wahl: ");
+        scanf(" %c",&difficulty);
+
+        if ((difficulty == '1') || (difficulty == '2') || (difficulty == '3')){
+            break;
+        } else {
+            printf("\nUngueltige eingabe!\n");
+        }
+    }
+
+    // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades. 
+    switch (difficulty)
+    {
+    case '1' : 
+        printf(" *** Spiel auf leicht setzten ***");
+        break;
+    case '2' : 
+        printf(" *** Spiel auf mittel setzten ***");
+        break;
+    case '3' : 
+        printf(" *** Spiel auf schwer setzten ***");
+        break;
+    
+    default:
+        break;
+    }
+}
+
+// Gibt das Sudoku Spiel im Terminal aus.
+void print_current_sudoku_grid()
+{
+    printf("\n\n");
+    printf("\n --------- --------- ---------\n");
+
+    for (int l = 0; l < 9; l++) {
+        printf("|"); 
+
+        for (int m = 0; m < 9; m++) {
+            if ((m == 2) | (m == 5) | (m == 8)){
+                
+                if (sudoku_grid[l][m] == 0) {
+                    printf("   |");
+                } else {
+                     printf(" %i |",sudoku_grid[l][m]);
+                }
+            
+            } else {
+
+                if (sudoku_grid[l][m] == 0) {
+                    printf("   ");
+                } else {
+                    printf(" %i ",sudoku_grid[l][m]);   
+                }
+            }
+
+            if ((m == 8) & (l == 2) | (m == 8) & (l == 5) | (m == 8) & (l == 8)) {
+                printf("\n --------- --------- ---------");
+            }
+        }
+        printf("\n");
+    }
+}
+
+// Ändert den Wert eines Sudoku Feldes anhand der Spielereingabe.
+int set_sudoku_grid_field(int row, int col, int value)
+{
+    sudoku_grid[row][col] = value;
+}
+
+// Gibt das aktuelle Spielfeld aus und bietet einem die Möglickeit die Werte der Felder zu verändern.
+int play_game()
+{
+    int row;
+    int col;
+    int value;
+    char row_c;
+    char col_c;
+    char value_c;
+
+    print_quit_game_text();
+    set_difficulty_of_game();
+    
+    while (1)
+    {
+        print_current_sudoku_grid();
+        printf("\n");
+
+        // Spielereingabe für die Reihe.
+        while (1)
+        {
+            printf("Reihe: \n");
+            scanf(" %c",&row_c);
+
+            if ((row_c  >= '0') && (row_c <= '9') || (row_c == 'x') || (row_c == 'X')) {
+                break;
+            } else {
+            printf("\nUngueltige eingabe!\n");
+        }
+        }
+
+        // Spielereingabe für die Spalte.
+        while (1)
+        {
+            printf("Spalte: \n");
+            scanf(" %c",&col_c);
+
+            if ((col_c  >= '0') && (col_c <= '9') || (col_c == 'x') || (col_c == 'X')) {
+                break;
+            } else {
+            printf("\nUngueltige eingabe!\n");
+        }
+        }
+
+        // Spielereingabe für den Eingabewert.
+        while (1)
+        {
+            printf("Wert: \n");
+            scanf(" %c",&value_c);
+
+            if ((value_c  >= '0') && (value_c <= '9') || (value_c == 'x') || (value_c == 'X')) {
+                break;
+            } else {
+            printf("\nUngueltige eingabe!\n");
+        }
+        }
+
+        //Bricht das Spiel ab, falls der Spieler in einen der Eingaben ein kleines oder großes X eingibt.
+        if (
+            !((row_c  >= '0') && (row_c <= '9')) || 
+            !((col_c  >= '0') && (col_c <= '9')) || 
+            !((value_c  >= '0') && (value_c <= '9'))
+            )
+        {
+            printf("\n");
+            printf("Spiel beendet!");
+            printf("\n");
+            break;
+        }
+
+        row = (int)row_c - 48;
+        col = (int)col_c - 48;
+        value = (int)value_c - 48;
+
+        // Spielereinagbe um 1 subtrahiert für besseres/intuitives Spielerlebnis.
+        row = row - 1;
+        col = col - 1;
+        
+        set_sudoku_grid_field(row,col,value);
+    }
+}

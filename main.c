@@ -3,5 +3,7 @@
 int main() {
     initialize_structs();
     int test = fill_grid();
-    print_sudoku();
+    // print_sudoku();
+    play_game();
+    
 }
