@@ -12,37 +12,36 @@ typedef struct Sudoku_row
     int numbers[9];
 } Sudoku_row;
 
-typedef struct Sudoku_colum
+typedef struct Sudoku_column
 {
     int free_numbers;
     int numbers[9];
 } Sudoku_column;
 
-typedef struct Sudoku_box_node
+typedef struct Cell_to_solve_node
 {
+    int row;
+    int col;
     Sudoku_box *sudoku_box;
-    struct Sudoku_box_node *next;
-} Sudoku_box_node;
-
-typedef struct Sudoku_row_node
-{
     Sudoku_row *sudoku_row;
-    struct Sudoku_row_node *next;
-} Sudoku_row_node;
-
-typedef struct Sudoku_column_node
-{
     Sudoku_column *sudoku_column;
-    struct Sudoku_column_node *next;
-} Sudoku_column_node;
+    struct Cell_to_solve_node *next;
+} Cell_to_solve_node;
+
+
+Cell_to_solve_node *cells_to_solve_box_table[9][9];
+Cell_to_solve_node *cells_to_solve_row_table[9][9];
+Cell_to_solve_node *cells_to_solve_column_table[9][9];
+Cell_to_solve_node *cells_to_solve_box_table_copy[9][9];
 
 Sudoku_row *sudoku_rows[9];
 Sudoku_column *sudoku_cols[9];
 Sudoku_box *sudoku_boxes[9];
 
-Sudoku_box_node *sudoku_box_nodes[9];
-Sudoku_row_node *sudoku_row_nodes[9];
-Sudoku_column_node *sudoku_column_nodes[9];
+Sudoku_row *sudoku_rows_to_solve[9];
+Sudoku_column *sudoku_columns_to_solve[9];
+Sudoku_box *sudoku_boxes_to_solve[9];
+
 
 static int digits_to_remove = 0;
 
@@ -74,6 +73,54 @@ void print_sudoku();
 
 /** Initialisiert die Strukturen*/
 void initialize_structs();
+
+/** Füllt die Zelle/Node mit Werten*/
+void fill_cell(Cell_to_solve_node *node, int row, int col);
+
+/** Füllt die Tabellen für die gelöschten Zellen/Nodes mit Zellen/Nodes*/
+void fill_cell_tables();
+
+/** Versucht das generierte Sudoku auf menschlicher Art zu lösen. Gibt 1 zurück, wenn es lösbar ist, 0, wenn nicht*/
+int solve_sudoku(int remaining_digits);
+
+/** Erhöht die free_numbers Variable um 1*/
+void increase_free_numbers(int row, int col);
+
+/** Gibt die Anzahl an gelöschten Variabeln zurück*/
+int get_number_of_removed_digits();
+
+/** Füllt die Box mit der Zelle an dem gegebenen index*/
+void insert_in_box_table(Cell_to_solve_node *cell, int index);
+
+/** Füllt die Reihe mit der Zelle an dem gegebenen index*/
+void insert_in_row_table(Cell_to_solve_node *cell, int index);
+
+/** Füllt die Spalte mit der Zelle an dem gegebenen index*/
+void insert_in_column_table(Cell_to_solve_node *cell, int index);
+
+/** Probiert die Zahlen von 1 - 9 für jede freie Zelle in der Box einzusetzen, wenn bei einer Zahl nur eine mögliche Zelle besteht wird diese gefüllt*/
+int try_to_insert_number_in_box(int index);
+
+/** Probiert die Zahlen von 1 - 9 für jede freie Zelle in der Reihe einzusetzen, wenn bei einer Zahl nur eine mögliche Zelle besteht wird diese gefüllt*/
+int try_to_insert_number_in_row(int index);
+
+/** Probiert die Zahlen von 1 - 9 für jede freie Zelle in der Spalte einzusetzen, wenn bei einer Zahl nur eine mögliche Zelle besteht wird diese gefüllt*/
+int try_to_insert_number_in_column(int index);
+
+/** Löscht die Zelle aus den Tabellen, nachdem diese befüllt wurde*/
+void delete_cell_from_tables(int row, int col);
+
+/** Löscht LinkedList für die Zellen*/
+void deleteList();
+
+/** Initializiert alle Tabellen mit NULL*/
+void initialize_tables();
+
+/** Kopiert die Werte aus der Box Tabelle*/
+void copy_box_table();
+
+/** Überprüft, ob das gelöste Spiel Grid mit der Lösung übereinstimmt*/
+int check_if_sudoku_is_valid();
 
 //Funktion, die die Spielzeit aktualisiert
 double calculate_game_time(clock_t start_clock);
