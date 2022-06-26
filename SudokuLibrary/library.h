@@ -122,6 +122,9 @@ void copy_box_table();
 /** Überprüft, ob das gelöste Spiel Grid mit der Lösung übereinstimmt*/
 int check_if_sudoku_is_valid();
 
+/* Überprüft, ob die ausgewählte Zelle vorher gelöscht wurde*/
+int check_if_cell_was_deleted (int row, int col);
+
 //Funktion, die die Spielzeit aktualisiert
 double calculate_game_time(clock_t start_clock);
 
