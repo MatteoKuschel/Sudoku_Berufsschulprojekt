@@ -1,3 +1,5 @@
+#include <time.h>
+
 typedef struct Sudoku_box
 {
     int free_numbers;
