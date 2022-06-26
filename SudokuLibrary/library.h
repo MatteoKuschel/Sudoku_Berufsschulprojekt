@@ -52,3 +52,9 @@ void save_score_data(int *sudoku[9][9], char filename[50]);
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
 void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
+
+//Funktion, die die Spielzeit aktualisiert
+double update_time(clock_t start_clock);
+
+//Funktion, die die Zeit in die Anzahl der Stunden, Minuten und Sekunden aufsplittet
+void get_current_time(double current_time, int *hours, int *minutes, int *seconds);
