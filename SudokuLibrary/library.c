@@ -565,7 +565,7 @@ double calculate_game_time(clock_t start_clock)
 void print_game_time(double current_time)
 {
     int hours, minutes, seconds;
-    
+
     //Sekunden, Minuten und Stunden ermitteln
     hours = current_time/3600;
     current_time-=  hours*3600;
@@ -782,20 +782,20 @@ void set_difficulty_of_game() {
         printf("Wahl: ");
         scanf(" %c",&difficulty_c);
 
-
-        // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades. 
+        // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades.
         if ((difficulty_c == '1') || (difficulty_c == '2') || (difficulty_c == '3')){
-             difficulty = (int)difficulty_c - 48;
-             set_difficulty(difficulty);
-            remove_sudoku_grid_numbers(); 
+
+            difficulty = (int)difficulty_c - 48;
+            set_difficulty(difficulty);
+            remove_sudoku_grid_numbers();
             break;
         } else {
             printf("\nUng\x81ltige eingabe!\n");
         }
     }
 
-    
-    
+
+
 }
 
 // Gibt das Sudoku Spiel im Terminal aus.
@@ -811,23 +811,23 @@ void print_current_sudoku_grid(clock_t start_clock)
     printf("\n --------- --------- ---------\n");
 
     for (int l = 0; l < 9; l++) {
-        printf("|"); 
+        printf("|");
 
         for (int m = 0; m < 9; m++) {
             if ((m == 2) | (m == 5) | (m == 8)){
-                
+
                 if (sudoku_grid_copy[l][m] == 0) {
                     printf("   |");
                 } else {
                      printf(" %i |",sudoku_grid_copy[l][m]);
                 }
-            
+
             } else {
 
                 if (sudoku_grid_copy[l][m] == 0) {
                     printf("   ");
                 } else {
-                    printf(" %i ",sudoku_grid_copy[l][m]);   
+                    printf(" %i ",sudoku_grid_copy[l][m]);
                 }
             }
 
@@ -854,7 +854,7 @@ void set_save_file(){
     char load_save_file;
     char save_file[50];
 
-    
+
     print_box(6,40);
     set_cursor(9,1);
 
@@ -865,17 +865,19 @@ void set_save_file(){
         printf("\n");
 
         if ((load_save_file == 'y') || (load_save_file == 'Y')) {
-            set_cursor(9,2);
-            printf("Gib den Namen der Save-file an: \n");
-            set_cursor(9,2);
-            printf("");
-            set_cursor(9,3);
-            scanf(" %c",&save_file);
+//            set_cursor(9,2);
+//            printf("Gib den Namen der Save-file an: \n");
+//            set_cursor(9,2);
+//            printf("");
+//            set_cursor(9,3);
+//            scanf(" %c",&save_file);
             get_sudoku_from_csv_file("Spielstand.csv");
             break;
         }
         if ((load_save_file == 'n') || (load_save_file == 'N')){
+            initialize_structs();
             int test = fill_grid();
+            copy_sudoku_grid();
             int check_if_solvable = 1;
             set_difficulty_of_game();
             int numbers = get_number_of_removed_digits();
@@ -892,7 +894,7 @@ void set_save_file(){
             } while (!check_if_solvable);
             copy_box_table();
             break;
-        }   
+        }
 
         // int test = fill_grid();
         // int check_if_solvable = 1;
@@ -926,8 +928,8 @@ void play_game()
     char save_file[50];
 
     clock_t start_clock = clock;
-    
-    
+
+
     system("cls");
     set_save_file();
     print_quit_game_text();
@@ -948,7 +950,7 @@ void play_game()
 
             if ((row_c  >= '1') && (row_c <= '9')) {
                 break;
-            } 
+            }
             if ((row_c == 'x') || (row_c == 'X')) {
                 printf("Spiel beendet!");
                 printf("\n");
@@ -993,10 +995,10 @@ void play_game()
         row = (int)row_c - 49;
         col = (int)col_c - 49;
 
-        // Verhindert, dass ein Feld geändert wird, welches bereits ein Wert hat 
-       if (sudoku_grid_copy[row][col] != 0) { 
-            if (check_if_cell_was_deleted(row, col)) { 
-                break; 
+        // Verhindert, dass ein Feld geändert wird, welches bereits ein Wert hat
+       if (sudoku_grid_copy[row][col] != 0) {
+            if (check_if_cell_was_deleted(row, col)) {
+                break;
         } printf("Zelle kann nicht verändert werden"); continue;}
 
         // Spielereingabe für den Eingabewert.
@@ -1007,7 +1009,7 @@ void play_game()
 
             if ((value_c  >= '1') && (value_c <= '9')) {
                 break;
-            } 
+            }
             //Bricht das Spiel ab, falls der Spieler in einen der Eingaben ein kleines oder großes X eingibt.
             if ((value_c == 'x') || (value_c == 'X')){
                 printf("Spiel beendet!");
@@ -1022,19 +1024,19 @@ void play_game()
                 return;
             }
             printf("\nUng\x81ltige eingabe!\n");
-        
+
         }
 
-        
+
         value = (int)value_c - 48;
 
-        
-        
+
+
         set_sudoku_grid_field(row,col,value);
 
         if (digits_to_remove == 0){
             printf("\n");
-            // Funktion überprüfen, ob man gewonnnen hat oder nicht. 
+            // Funktion überprüfen, ob man gewonnnen hat oder nicht.
             if (check_if_sudoku_is_valid()) {
                 printf("Spiel gewonnen!");
                 break;
