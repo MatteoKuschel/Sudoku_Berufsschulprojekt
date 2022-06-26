@@ -132,7 +132,7 @@ void initialize_structs()
 }
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
-void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
+void get_sudoku_from_csv_file(char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;
@@ -154,13 +154,13 @@ void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
     {
         for(column=0;column<9;column++)
         {
-            sudoku[line][column] =  puffer[column*2]-48;
+            sudoku_grid_copy[line][column] =  puffer[column*2]-48;
         }
         line++;
     }
 }
 
-void save_score_data(int *sudoku[9][9], char filename[50])
+void save_score_data(char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;
@@ -177,11 +177,11 @@ void save_score_data(int *sudoku[9][9], char filename[50])
         {
             if (first_value == 1)
             {
-                fprintf(sudoku_file,"%i", sudoku[line][column]);
+                fprintf(sudoku_file,"%i", sudoku_grid_copy[line][column]);
                 first_value = 0;
             }else
             {
-                fprintf(sudoku_file,";%i", sudoku[line][column]);
+                fprintf(sudoku_file,";%i", sudoku_grid_copy[line][column]);
             }
 
         }
@@ -378,7 +378,7 @@ void set_save_file(){
     char load_save_file;
     char save_file[50];
 
-
+    
     print_box(6,40);
     set_cursor(9,1);
 
@@ -395,7 +395,7 @@ void set_save_file(){
             printf("");
             set_cursor(9,3);
             scanf(" %c",&save_file);
-            get_sudoku_from_csv_file(sudoku_grid_copy, save_file);
+            get_sudoku_from_csv_file("Spielstand.csv");
             break;
         }
         if ((load_save_file == 'n') || (load_save_file == 'N')){
@@ -446,9 +446,9 @@ void play_game()
                 return;
             }
             if ((row_c == 's') || (row_c == 'S')) {
-                printf("Gib den Namen der Save-file an: \n");
-                scanf(" %c",&save_file);
-                save_score_data(sudoku_grid_copy,save_file);
+                // printf("Gib den Namen der Save-file an: \n");
+                // scanf(" %c",&save_file);
+                save_score_data("Spielstand.csv");
                 printf("\n");
                 return;
             }
@@ -471,9 +471,9 @@ void play_game()
                 return;
             }
             if ((col_c == 's') || (col_c == 'S')) {
-                printf("Gib den Namen der Save-file an: \n");
-                scanf(" %c",&save_file);
-                save_score_data(sudoku_grid_copy,save_file);
+                // printf("Gib den Namen der Save-file an: \n");
+                // scanf(" %c",&save_file);
+                save_score_data("Spielstand.csv");
                 printf("\n");
                 return;
             }
@@ -507,9 +507,9 @@ void play_game()
                 return;
             }
             if ((value_c == 's') || (value_c == 'S')) {
-                printf("Gib den Namen der Save-file an: \n");
-                scanf(" %c",&save_file);
-                save_score_data(sudoku_grid_copy,save_file);
+                // printf("Gib den Namen der Save-file an: \n");
+                // scanf(" %c",&save_file);
+                save_score_data("Spielstand.csv");
                 printf("\n");
                 return;
             }

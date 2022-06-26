@@ -75,9 +75,9 @@ void print_sudoku();
 /** Initialisiert die Strukturen*/
 void initialize_structs();
 
-void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
+void get_sudoku_from_csv_file(char filename[50]);
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
-void save_score_data(int *sudoku[9][9], char filename[50]);
+void save_score_data(char filename[50]);
 
 /** Legt fest wie viele Zahlen aus dem Grid gelöscht werden. Es gibt drei verschiedene Schwierigkeitsgrade von 1 bis 3.*/
 void set_difficulty(int chosen_difficulty);
