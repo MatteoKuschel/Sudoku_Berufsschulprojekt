@@ -536,10 +536,16 @@ int check_if_cell_was_deleted(int row, int col)
 }
 
 int check_if_sudoku_is_valid() {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (sudoku_grid[i][j] != sudoku_grid_copy[i][j]) {
-                return 0;
+    for (int i = 1; i <= 9; i++) {
+        int counter = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (sudoku_grid_copy[row][col] == i) {
+                    counter++;
+                }
+                if (counter == 10) {
+                    return 0;
+                }
             }
         }
     }
