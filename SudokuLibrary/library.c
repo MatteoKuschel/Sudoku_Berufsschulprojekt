@@ -130,35 +130,8 @@ void initialize_structs()
     }
 }
 
-//Funktion, die das Sudoku aus einer CSV_Datei einliest
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
-{
-    //Deklaration der Variablen
-    FILE *sudoku_file;
-    char puffer[20];
-    int line, column;
 
-    //CSV-Datei im "Read"-Modus öffnen
-    sudoku_file = fopen(filename,"r");
-
-    //Überprüfung, ob die Datei gefunden wurde
-    if(sudoku_file == NULL)
-    {
-        printf("Sudoku wurde nicht gefunden");
-    }
-
-    //Zeilen der CSV-Datei einlesen und die Werte dem Sudoku-Array zuweisen
-    line = 0;
-    while(fgets(puffer,20,sudoku_file))
-    {
-        for(column=0;column<9;column++)
-        {
-            sudoku[line][column] =  puffer[column*2]-48;
-        }
-        line++;
-    }
-
-save_score_data(int *sudoku[9][9], char filename[50])
+void save_score_data(int *sudoku[9][9], char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;

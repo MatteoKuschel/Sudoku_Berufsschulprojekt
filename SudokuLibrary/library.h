@@ -47,11 +47,6 @@ void print_sudoku();
 /** Initialisiert die Strukturen*/
 void initialize_structs();
 
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
-save_score_data(int *sudoku[9][9], char filename[50]);
-//Funktion, die die Spielzeit aktualisiert
-double update_time(clock_t start_clock);
+void save_score_data(int *sudoku[9][9], char filename[50]);
 
-//Funktion, die die Zeit in die Anzahl der Stunden, Minuten und Sekunden aufsplittet
-void get_current_time(double current_time, int *hours, int *minutes, int *seconds)
