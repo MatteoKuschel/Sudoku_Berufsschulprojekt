@@ -46,3 +46,9 @@ void print_sudoku();
 
 /** Initialisiert die Strukturen*/
 void initialize_structs();
+
+//Funktion, die die Spielzeit aktualisiert
+double update_time(clock_t start_clock);
+
+//Funktion, die die Zeit in die Anzahl der Stunden, Minuten und Sekunden aufsplittet
+void get_current_time(double current_time, int *hours, int *minutes, int *seconds)

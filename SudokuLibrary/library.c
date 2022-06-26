@@ -129,3 +129,26 @@ void initialize_structs()
         }
     }
 }
+
+double update_time(clock_t start_clock)
+{
+    clock_t current_clock;
+    double current_time;
+
+    current_clock = clock();
+
+    current_time = (current_clock - start_clock)/CLOCKS_PER_SEC;
+
+    return current_time;
+}
+
+void get_current_time(double current_time, int *hours, int *minutes, int *seconds)
+{
+    *hours = current_time/3600;
+    current_time-= *hours*3600;
+
+    *minutes = current_time/60;
+    current_time -= *minutes*60;
+
+    *seconds = current_time;
+}
