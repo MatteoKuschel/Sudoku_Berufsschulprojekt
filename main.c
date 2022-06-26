@@ -4,11 +4,20 @@
 int main() {
     initialize_structs();
     int test = fill_grid();
-    copy_sudoku_grid();
-    print_sudoku();
-    printf("\n");
+    int check_if_solvable = 1;
     set_difficulty(3);
-    remove_sudoku_grid_numbers();
-    print_sudoku();
+    int numbers = get_number_of_removed_digits();
+    do {
+        initialize_tables();
+        copy_sudoku_grid();
+        remove_sudoku_grid_numbers();
+        fill_cell_tables();
+        check_if_solvable = solve_sudoku(numbers);
 
+        if (!check_if_solvable) {
+            deleteList();
+        }
+    } while (!check_if_solvable);
+
+    print_sudoku();
 }
