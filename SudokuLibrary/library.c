@@ -130,6 +130,31 @@ void initialize_structs()
         }
     }
 }
+double update_time(clock_t start_clock)
+{
+    //Variablen initialisieren
+    clock_t current_clock;
+    double current_time;
+
+    //Aktuelle Zeit ermitteln
+    current_clock = clock();
+
+    //Differenz aus der aktuellen Zeit und der Anfangszeit ermitteln und zurückgeben
+    current_time = (current_clock - start_clock)/CLOCKS_PER_SEC;
+    return current_time;
+}
+
+void get_current_time(double current_time, int *hours, int *minutes, int *seconds)
+{
+    //Sekunden, Minuten und Stunden ermitteln
+    *hours = current_time/3600;
+    current_time-= *hours*3600;
+
+    *minutes = current_time/60;
+    current_time -= *minutes*60;
+
+    *seconds = current_time;
+}
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
 void get_sudoku_from_csv_file(char filename[50])
