@@ -141,10 +141,10 @@ double calculate_game_time(clock_t start_clock)
 
     //Differenz aus der aktuellen Zeit und der Anfangszeit ermitteln und zurückgeben
     current_time = (current_clock - start_clock)/CLOCKS_PER_SEC;
-    return current_time;
+    return (current_time + 4208);
 }
 
-void get_current_time(double current_time)
+void print_game_time(double current_time)
 {
     int hours, minutes, seconds;
     
@@ -157,7 +157,7 @@ void get_current_time(double current_time)
 
     seconds = current_time;
 
-    printf("%i:%i:%i",hours,minutes,seconds);
+    printf("Spielzeit: %i:%i:%i",hours,minutes,seconds);
 }
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
@@ -358,13 +358,15 @@ void set_difficulty_of_game() {
 }
 
 // Gibt das Sudoku Spiel im Terminal aus.
-void print_current_sudoku_grid()
+void print_current_sudoku_grid(clock_t start_clock)
 {
-    clock_t start_clock = clock;
     double game_time;
+
+
     printf("\n\n");
     game_time = calculate_game_time(start_clock);
-    get_current_time(game_time);
+    print_game_time(game_time);
+
     printf("\n --------- --------- ---------\n");
 
     for (int l = 0; l < 9; l++) {
@@ -451,6 +453,9 @@ void play_game()
     char col_c;
     char value_c;
     char save_file[50];
+
+    clock_t start_clock = clock;
+    
     
     system("cls");
     set_save_file();
@@ -461,7 +466,7 @@ void play_game()
     while (!is_valid)
     {
 
-        print_current_sudoku_grid();
+        print_current_sudoku_grid(start_clock);
         printf("\n");
 
         // Spielereingabe für die Reihe.

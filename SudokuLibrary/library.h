@@ -79,7 +79,7 @@ void initialize_structs();
 double calculate_game_time(clock_t start_clock);
 
 //Funktion, die die Zeit in die Anzahl der Stunden, Minuten und Sekunden aufsplittet
-void get_current_time(double current_time);
+void print_game_time(double current_time);
 
 void get_sudoku_from_csv_file(char filename[50]);
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
