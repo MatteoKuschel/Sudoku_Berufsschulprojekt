@@ -131,7 +131,7 @@ void initialize_structs()
 }
 
 
-save_score_data(int *sudoku[9][9], char filename[50])
+void save_score_data(int *sudoku[9][9], char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;

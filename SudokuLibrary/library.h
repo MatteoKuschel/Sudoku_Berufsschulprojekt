@@ -48,4 +48,4 @@ void print_sudoku();
 void initialize_structs();
 
 //Funktion, um den aktuellen Spielstand in einer CSV-Datei zu speichern
-save_score_data(int *sudoku[9][9], char filename[50]);
+void save_score_data(int *sudoku[9][9], char filename[50]);
