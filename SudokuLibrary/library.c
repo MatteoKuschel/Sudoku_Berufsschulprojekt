@@ -161,6 +161,38 @@ void save_score_data(int *sudoku[9][9], char filename[50])
     }
     //Datei schließen
     fclose(sudoku_file);
+}
+
+void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
+{
+    //Deklaration der Variablen
+    FILE *sudoku_file;
+    int line , column, first_value;
+
+    //Datei im "Write"-Modus öffnen
+    sudoku_file = fopen(filename,"w");
+
+    //Werte aus dem Array in die CSV-Datei schreiben
+    for(line=0;line<9;line++)
+    {
+        first_value = 1;
+        for(column=0;column<9;column++)
+        {
+            if (first_value == 1)
+            {
+                fprintf(sudoku_file,"%i", sudoku[line][column]);
+                first_value = 0;
+            }else
+            {
+                fprintf(sudoku_file,";%i", sudoku[line][column]);
+            }
+
+        }
+        fprintf(sudoku_file,"\n");
+
+    }
+    //Datei schließen
+    fclose(sudoku_file);
 double update_time(clock_t start_clock)
 {
     clock_t current_clock;
