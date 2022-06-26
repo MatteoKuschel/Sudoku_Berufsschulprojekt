@@ -131,7 +131,7 @@ void initialize_structs()
 }
 
 //Funktion, die das Sudoku aus einer CSV_Datei einliest
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
+void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50])
 {
     //Deklaration der Variablen
     FILE *sudoku_file;

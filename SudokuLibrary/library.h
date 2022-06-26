@@ -47,4 +47,4 @@ void print_sudoku();
 /** Initialisiert die Strukturen*/
 void initialize_structs();
 
-get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
+void get_sudoku_from_csv_file(int *sudoku[9][9], char filename[50]);
