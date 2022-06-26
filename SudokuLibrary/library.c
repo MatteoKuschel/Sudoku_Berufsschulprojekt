@@ -263,6 +263,7 @@ void remove_sudoku_grid_numbers()
     } while (remaining_digits > 0);
 }
 
+//Setzt den Cusor im Terminal. (Genommen von Konsolen Demo)
 int set_cursor(int x, int y)
 {
     COORD koordinaten;
@@ -272,6 +273,7 @@ int set_cursor(int x, int y)
     return 0;
 }
 
+//Gibt eine Box im Terminal aus. (Genommen von Konsolen Demo)
 void print_box(int HOEHE, int BREITE)
 {
     for (int i = 0; i < HOEHE; i++)
