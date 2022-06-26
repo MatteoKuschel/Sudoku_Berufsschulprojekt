@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <windows.h>
 
 int calculate_box(int row, int col)
 {
@@ -233,39 +234,93 @@ void remove_sudoku_grid_numbers()
     } while (remaining_digits > 0);
 }
 
+int set_cursor(int x, int y)
+{
+    COORD koordinaten;
+    koordinaten.X= x;
+    koordinaten.Y= y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), koordinaten);
+    return 0;
+}
+
+void print_box(int HOEHE, int BREITE)
+{
+    for (int i = 0; i < HOEHE; i++)
+    {
+        for (int j = 0; j < BREITE; j++)
+        {
+            if (i == 0 && j == 0)
+                printf("\xC9");
+            else if (i == 0 && j == BREITE-1)
+                printf("\xBB");
+            else if (i == HOEHE-1 && j == 0)
+                printf("\xC8");
+            else if (i == HOEHE-1 && j == BREITE-1)
+                printf("\xBC");
+            else if (i == 0 || i == HOEHE-1)
+                printf("\xCD");
+            else if (j == 0 || j == BREITE-1)
+                printf("\xBA");
+            else
+                printf(" ");
+        }
+        printf("\n");
+    }
+}
+
+
+
+
 //Gibt ein Text aus, der einen darauf hinweißt, dass man mit der Eingabe von x das Spiel beenden kann.
 void print_quit_game_text() {
 
-    printf("\n\n");
-    printf("//////////////////////\n");
-    printf("/   Spiel beenden: x /\n");
-    printf("//////////////////////\n");
+    system("cls");
+    print_box(6,40);
+    set_cursor(8,1);
+    set_cursor(8,2);
+    printf("Spiel beenden: x \n");
+    set_cursor(8,3);
+    printf("Spielstand speichern: s \n");
 }
 
 // Gibt einem die Möglichkeit den Schwierigkeitsgrad des Spieles auszuwählen.
 void set_difficulty_of_game() {
     int difficulty;
+    char difficulty_c;
 
-    printf("\n\n");
+
+    system("cls");
+    print_box(10,50);
+    set_cursor(9,1);
     printf("Spielschwierigkeit einstellen: \n");
+    set_cursor(6,2);
+    printf("");
+    set_cursor(6,3);
     printf("Leicht: 1\n");
+    set_cursor(6,4);
     printf("Mittel: 2\n");
+    set_cursor(6,5);
     printf("Schwer: 3\n\n");
+    set_cursor(6,6);
+    printf("");
+    set_cursor(6,7);
+    printf("");
 
     // Spielereingabe für die Wahl des Schwierigkeitsgrades.
     while (1)
     {
         printf("Wahl: ");
-        scanf(" %i",&difficulty);
+        scanf(" %c",&difficulty_c);
 
 
         // Verändert das Spielfeld je nach Eingabe des Schwierigkeitgrades. 
-        if ((difficulty == 1) || (difficulty == 2) || (difficulty == 3)){
+        if ((difficulty_c == '1') || (difficulty_c == '2') || (difficulty_c == '3')){
+             difficulty = (int)difficulty_c - 48;
              set_difficulty(difficulty);
             remove_sudoku_grid_numbers(); 
             break;
         } else {
-            printf("\nUngueltige eingabe!\n");
+            printf("\nUng\x81ltige eingabe!\n");
         }
     }
 
@@ -318,6 +373,41 @@ void set_sudoku_grid_field(int row, int col, int value)
     digits_to_remove --;
 }
 
+// Bietet einem die Möglichkeit ein Spielstand zu laden.
+void set_save_file(){
+    char load_save_file;
+    char save_file[50];
+
+
+    print_box(6,40);
+    set_cursor(9,1);
+
+    while (1)
+    {
+        printf("Spielstand laden? y/n ");
+        scanf(" %c",&load_save_file);
+        printf("\n");
+
+        if ((load_save_file == 'y') || (load_save_file == 'Y')) {
+            set_cursor(9,2);
+            printf("Gib den Namen der Save-file an: \n");
+            set_cursor(9,2);
+            printf("");
+            set_cursor(9,3);
+            scanf(" %c",&save_file);
+            get_sudoku_from_csv_file(sudoku_grid_copy, save_file);
+            break;
+        }
+        if ((load_save_file == 'n') || (load_save_file == 'N')){
+            int test = fill_grid();
+            copy_sudoku_grid();
+            set_difficulty_of_game();
+            break;
+        }   
+        printf("\nUng\x94ltige eingabe!\n");
+    }
+}
+
 // Gibt das aktuelle Spielfeld aus und bietet einem die Möglickeit die Werte der Felder zu verändern.
 void play_game()
 {
@@ -327,13 +417,17 @@ void play_game()
     char row_c;
     char col_c;
     char value_c;
-
+    char save_file[50];
+    
+    system("cls");
+    set_save_file();
     print_quit_game_text();
-    set_difficulty_of_game();
     int is_valid = 0;
+
 
     while (!is_valid)
     {
+
         print_current_sudoku_grid();
         printf("\n");
 
@@ -351,7 +445,14 @@ void play_game()
                 printf("\n");
                 return;
             }
-            printf("\nUngueltige eingabe!\n");
+            if ((row_c == 's') || (row_c == 'S')) {
+                printf("Gib den Namen der Save-file an: \n");
+                scanf(" %c",&save_file);
+                save_score_data(sudoku_grid_copy,save_file);
+                printf("\n");
+                return;
+            }
+            printf("\nUng\x81ltige eingabe!\n");
         }
 
         // Spielereingabe für die Spalte.
@@ -369,7 +470,14 @@ void play_game()
                 printf("\n");
                 return;
             }
-            printf("\nUngueltige eingabe!\n");
+            if ((col_c == 's') || (col_c == 'S')) {
+                printf("Gib den Namen der Save-file an: \n");
+                scanf(" %c",&save_file);
+                save_score_data(sudoku_grid_copy,save_file);
+                printf("\n");
+                return;
+            }
+            printf("\nUng\x81ltige eingabe!\n");
         }
 
         // Spielereinagbe um 1 subtrahiert für besseres/intuitives Spielerlebnis.
@@ -398,7 +506,14 @@ void play_game()
                 printf("\n");
                 return;
             }
-            printf("\nUngueltige eingabe!\n");
+            if ((value_c == 's') || (value_c == 'S')) {
+                printf("Gib den Namen der Save-file an: \n");
+                scanf(" %c",&save_file);
+                save_score_data(sudoku_grid_copy,save_file);
+                printf("\n");
+                return;
+            }
+            printf("\nUng\x81ltige eingabe!\n");
         
         }
 
